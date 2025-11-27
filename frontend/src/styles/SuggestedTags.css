@@ -1,0 +1,50 @@
+.suggested-tags {
+  background: rgba(8, 11, 16, 0.6);
+  border: 1px solid #232832;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.panel-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.tag-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #33408a;
+  background: #121826;
+  color: #e4e8f2;
+  font-size: 15px;
+  outline: none;
+  margin-bottom: 14px;
+  transition: border-color 0.2s;
+}
+
+.tag-select:focus {
+  border-color: #7c3aed;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-item {
+  background: #1a1f2e;
+  color: #b3baff;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #2f3562;
+  font-size: 13px;
+  cursor: default;
+  transition: all 0.2s ease;
+}
+
+.tag-item:hover {
+  background: #2a2f4a;
+  border-color: #7c3aed;
+}

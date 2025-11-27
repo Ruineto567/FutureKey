@@ -1,0 +1,109 @@
+/* Header */
+.fk-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(10px);
+  background: rgba(10, 13, 18, 0.65);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+/* ⬅️ Largura total e padding nas bordas para encostar nos cantos da tela */
+.fk-header-inner {
+  height: 64px;
+  width: 100%;
+  padding-inline: clamp(16px, 4vw, 40px);
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* marca | NAV (1fr) | ações */
+  align-items: center;
+  gap: 16px;
+}
+
+/* Marca */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #e7eaf1;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+.brand .dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: conic-gradient(from 180deg at 50% 50%, #ff5ea3, #a855f7, #5b8cff, #ff5ea3);
+  box-shadow: 0 0 18px rgba(124,58,237,.45);
+}
+.brand-text { font-size: 16px; }
+
+/* Nav central */
+.nav {
+  display: inline-flex;
+  gap: clamp(16px, 4vw, 36px);
+  justify-self: center;     /* ⬅️ centraliza o bloco da NAV dentro da coluna 1fr */
+  align-items: center;
+  text-align: center;
+}
+.nav-link {
+  position: relative;
+  padding: 6px 2px;
+  color: #cfd7e6;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color .2s ease;
+}
+.nav-link:hover { color: #ffffff; }
+.nav-link.active::after,
+.nav-link[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -10px;
+  height: 2px; border-radius: 999px;
+  background: linear-gradient(90deg, #a855f7, #5b8cff);
+}
+
+/* Ações à direita */
+.actions {
+  display: inline-flex;
+  justify-content: end;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botões */
+.btn {
+  border: 1px solid #2a3240;
+  background: #0f1623;
+  color: #e7eaf1;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .06s ease, filter .2s ease, box-shadow .25s ease, border-color .25s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actions { display: inline-flex; justify-content: end; gap: 10px; }
+
+
+.btn:hover { filter: brightness(1.08); border-color: #33408a; }
+.btn:active { transform: translateY(1px); }
+.btn.ghost { background: transparent; border-color:#2a3240; color:#d7deee; }
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .fk-header-inner {
+    grid-template-columns: auto 1fr auto; /* mantém canto-canto */
+    gap: 12px;
+  }
+  .nav { gap: 18px; }
+}
+@media (max-width: 680px) {
+  .nav { display: none; }  /* simplifica: só marca e Login */
+}
