@@ -1,47 +1,81 @@
+﻿# FutureKey — React + Node (monorepo)
 
-# FutureKey — React + Node (Monorepo)
+SaaS focado em analytics e gestão de conteúdo, com integrações externas:
+- **Instagram** (RapidAPI) para métricas.
+- **Google Calendar** (OAuth2) para agendamento.
+- **Stripe** para billing.
+- **MongoDB** para persistência.
 
-SaaS monolítico com **3 integrações**:
-- **Análise Instagram**: RapidAPI (Instagram Scraper Stable API)
-- **Agendamento**: Google Calendar (OAuth2)
-- **Pagamentos**: Stripe (Checkout)
+## Visão em camadas
+```
+┌───────────────┐      ┌─────────────────────────────┐
+│   Frontend    │      │           Backend            │
+│ React + Vite  │      │ Node.js + Express + Mongoose │
+├───────────────┤      ├─────────────────────────────┤
+│ Pages (UI)    │ ---> │ Controllers/Routes           │
+│ Components    │      │  |                          │
+│ Hooks/Context │ <--- │ Services (Instagram/Stripe/Google) │
+└───────────────┘      └──────────┬──────────────────┘
+                                  │
+                                  ▼
+                           MongoDB (InstagramUsers, Users)
+```
 
-Banco de dados: **MongoDB Atlas** (free).
+### Fluxo principal (Analytics)
+```
+Usuário -> /analytics (React)
+        -> fetch /api/instagram/analytics/:username
+        -> Controller chama Mongo e retorna métricas
+        -> UI renderiza cards, gráficos e tabela
+```
 
-## Estrutura
+### Estrutura do repo
 ```
 futurekey-react-node/
-├─ backend/        # Node.js + Express + Mongo + JWT
-└─ frontend/       # React (Vite) + Axios + React Router
+├─ backend/        # Node.js + Express + MongoDB + JWT
+└─ frontend/       # React (Vite) + React Router
 ```
 
-## Passos rápidos
-1) Copie os `.env.example` para `.env` (backend e frontend) e preencha.
-2) Instale deps:
+## Instalação e execução
+1) Crie `.env` no backend e frontend (copie de eventuais exemplos).
+2) Dependências:
 ```
 cd backend && npm install
 cd ../frontend && npm install
 ```
-3) Dev:
+3) Dev (2 terminais):
 ```
-# Em dois terminais
-cd backend && npm start
-cd frontend && npm run dev
+cd backend && npm start          # http://localhost:4000
+cd frontend && npm run dev       # http://localhost:5173
 ```
-Backend: http://localhost:4000  
-Frontend (Vite): http://localhost:5173
 
-> Produção: faça build do frontend e sirva os arquivos estáticos pelo backend (ver `backend/src/server.js`).
+> Produção: faça `npm run build` no frontend e sirva os estáticos pelo backend (`backend/src/server.js`).
 
-## Integrações
-- **RapidAPI**: defina `RAPIDAPI_HOST` e `RAPIDAPI_KEY` no `.env` do backend.
-- **Google**: crie OAuth Client (Web), ative Calendar API e use o redirect do `.env` (`/api/google/auth/callback`).
-- **Stripe**: crie 3 Prices (Starter/Pro/Agency) e cole os IDs no `.env`. Use `STRIPE_SECRET_KEY` de teste.
-- **MongoDB Atlas**: crie um cluster gratuito, pegue a `MONGO_URI` e cole no backend `.env`.
+## Variáveis essenciais (backend)
+- `MONGO_URL` ou `MONGO_URI`
+- `JWT_SECRET`
+- Instagram via RapidAPI: `RAPIDAPI_HOST`, `RAPIDAPI_KEY`
+- Google OAuth: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_REDIRECT_URI`
+- Stripe: `STRIPE_SECRET_KEY`, IDs de preços
 
-## Endpoints principais (backend)
+## Endpoints (resumo)
 - **Auth**: `POST /api/auth/register`, `POST /api/auth/login`, `GET /api/auth/me`
-- **Instagram**: `GET /api/instagram/posts?username=...`, `GET /api/instagram/best-post-time?username=...`
+- **Instagram**:
+  - `GET /api/instagram/search?q=` (listar empresas/usuários)
+  - `GET /api/instagram/:username` (detalhe)
+  - `PUT /api/instagram/:username` (atualizar perfil + posts)
+  - `POST /api/instagram/seed` (criar/atualizar rápido)
+  - `GET /api/instagram/analytics/:username` (métricas)
 - **Google**: `GET /api/google/auth/url`, `GET /api/google/auth/callback`, `POST /api/google/meetings`
-- **Meetings (local log)**: `GET/POST /api/meetings`
 - **Billing**: `POST /api/billing/checkout`, `POST /api/billing/webhook`
+
+## Frontend
+- **Pages**: Home (hero + CTA), Analytics (busca + gráficos), Companies (CRUD de empresas/posts), Login.
+- **Components**: gráficos (Recharts), cards, layout e estilos modernizados.
+- **Context**: `AuthContext` para proteger rotas e redirecionar.
+
+## Checklist rápido
+- [ ] Preencher `.env` do backend (Mongo, integrações).
+- [ ] Preencher `.env` do frontend (VITE_API_BASE).
+- [ ] Rodar `npm start` no backend e `npm run dev` no frontend.
+- [ ] Criar empresa/posts em `/companies` e validar métricas em `/analytics`.
