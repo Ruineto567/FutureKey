@@ -7,8 +7,6 @@ import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 
 import authRoutes from './routes/auth.routes.js';
-import meetingsRoutes from './routes/meeting.routes.js';
-import googleRoutes from './routes/google.routes.js';
 import instagramRoutes from './routes/instagram.routes.js';
 
 const app = express();
@@ -25,8 +23,6 @@ app.use(express.json()); // ✅ Agora vem ANTES das rotas
 
 // Rotas principais
 app.use('/api/auth', authRoutes);
-app.use('/api/meetings', meetingsRoutes);
-app.use('/api/google', googleRoutes);
 app.use('/api/instagram', instagramRoutes); // ✅ Agora está no lugar certo!
 
 // Middleware para rotas não encontradas

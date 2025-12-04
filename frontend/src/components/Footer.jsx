@@ -18,7 +18,6 @@ export default function Footer() {
         <nav className="fk-footer-nav">
           <Link to="/">Início</Link>
           <Link to="/analytics">Análise</Link>
-          <Link to="/meetings">Cadastrar Dados</Link>
           <a href="https://github.com/Ruineto567" target="_blank" rel="noreferrer">GitHub</a>
         </nav>
       </div>
