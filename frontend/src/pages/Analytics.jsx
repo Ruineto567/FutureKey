@@ -51,13 +51,13 @@ function NextBestTimeTip({ best }) {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
-    timeZone: "UTC"
+    timeZone: "America/Sao_Paulo"
   });
 
   return (
     <div className="next-best-tip" >
       🚀 Próximo melhor horário sugerido:<br />
-      <b>{formatted} (UTC)</b>
+      <b>{formatted} (Brasilia)</b>
     </div>
   );
 }
